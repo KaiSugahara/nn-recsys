@@ -1,7 +1,7 @@
 import jax
 from flax import nnx
 
-from flax_recsys.toolbox import split_array_into_windows
+from nn_recsys.toolbox import split_array_into_windows
 
 
 class GRU4Rec(nnx.Module):

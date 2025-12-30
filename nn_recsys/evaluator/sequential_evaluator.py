@@ -6,8 +6,8 @@ from flax import nnx
 from flax_trainer.evaluator import BaseEvaluator
 from tqdm.auto import tqdm
 
-from flax_recsys.encoder.sequential_encoder import SequentialEncoder
-from flax_recsys.loader.sequential_loader import SequentialLoader
+from nn_recsys.encoder.sequential_encoder import SequentialEncoder
+from nn_recsys.loader.sequential_loader import SequentialLoader
 
 T = TypeVar("T", str, int)
 Model = TypeVar("Model", bound=nnx.Module)

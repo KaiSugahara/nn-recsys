@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "flax-recsys"
+name = "nn-recsys"
 version = "1.2.1"
 description = ""
 authors = ["Kai Sugahara <contact@kais.jp>"]

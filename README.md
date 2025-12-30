@@ -1,1 +1,1 @@
-# flax-recsys
+# nn-recsys

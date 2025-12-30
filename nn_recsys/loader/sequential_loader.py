@@ -7,7 +7,7 @@ from flax import nnx
 from flax_trainer.loader import BaseLoader
 from tqdm.auto import tqdm
 
-from flax_recsys.encoder.sequential_encoder import SequentialEncoder
+from nn_recsys.encoder.sequential_encoder import SequentialEncoder
 
 T = TypeVar("T", str, int)
 

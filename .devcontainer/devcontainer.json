@@ -1,5 +1,5 @@
 {
-    "name": "flax-recsys-dev",
+    "name": "nn-recsys-dev",
     "build": {
         "context": "..",
         "dockerfile": "Dockerfile"
