@@ -41,13 +41,19 @@ class GRU4Rec(nnx.Module):
                     )
                 )
             )
+        self.GRUCells = nnx.data(self.GRUCells)
+        self.carries = nnx.data(self.carries)
 
-        self.ff_linears = [
-            nnx.Linear(in_features=in_features, out_features=out_features, rngs=rngs)
-            for in_features, out_features in split_array_into_windows(
-                ([embed_dim] + gru_layer_dims)[-1:] + ff_layer_dims, window_size=2
-            )
-        ]
+        self.ff_linears = nnx.data(
+            [
+                nnx.Linear(
+                    in_features=in_features, out_features=out_features, rngs=rngs
+                )
+                for in_features, out_features in split_array_into_windows(
+                    ([embed_dim] + gru_layer_dims)[-1:] + ff_layer_dims, window_size=2
+                )
+            ]
+        )
 
         self.output_linear = nnx.Linear(
             in_features=([embed_dim] + gru_layer_dims + ff_layer_dims)[-1],

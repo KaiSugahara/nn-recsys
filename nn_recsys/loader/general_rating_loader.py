@@ -3,7 +3,7 @@ from typing import Self
 
 import jax
 from flax import nnx
-from flax_trainer.loader import BaseLoader
+from nn_trainer.flax.loader import BaseLoader
 
 
 class GeneralRatingLoader(BaseLoader):
@@ -21,8 +21,8 @@ class GeneralRatingLoader(BaseLoader):
         self.batch_size = batch_size
         self.rngs = rngs
 
-    def __iter__(self) -> Self:
-        """Prepares for batch iteration"""
+    def setup_epoch(self) -> Self:
+        """Data preparation before the start of every epoch"""
 
         # Num. of data
         self.data_size = self.categorical_X.shape[0]
@@ -37,6 +37,11 @@ class GeneralRatingLoader(BaseLoader):
             self.numerical_X[self.shuffled_indices],
             self.y[self.shuffled_indices],
         )
+
+        return self
+
+    def __iter__(self) -> Self:
+        """Initialize iteration"""
 
         # Initialize batch index
         self.batch_index = 0

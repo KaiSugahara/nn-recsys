@@ -3,7 +3,7 @@ from typing import Generic, TypeVar
 import jax
 import jax.numpy as jnp
 from flax import nnx
-from flax_trainer.evaluator import BaseEvaluator
+from nn_trainer.flax.evaluator import BaseEvaluator
 from tqdm.auto import tqdm
 
 from nn_recsys.encoder.sequential_encoder import SequentialEncoder
@@ -29,7 +29,7 @@ class SequentialEvaluator(BaseEvaluator, Generic[T, Model]):
                 encoder=encoder,
                 batch_size=batch_size,
                 rngs=nnx.Rngs(0),
-            )
+            ).setup_epoch()
         )
 
     @staticmethod

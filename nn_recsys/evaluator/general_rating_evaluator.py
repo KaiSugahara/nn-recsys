@@ -1,7 +1,7 @@
 import jax
 import jax.numpy as jnp
 from flax import linen as nn
-from flax_trainer.evaluator import BaseEvaluator
+from nn_trainer.flax.evaluator import BaseEvaluator
 
 
 class GeneralRatingEvaluator(BaseEvaluator):

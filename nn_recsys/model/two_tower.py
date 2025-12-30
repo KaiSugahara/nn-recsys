@@ -40,61 +40,69 @@ class TwoTower(nnx.Module):
         )
 
         self.user_embedders, self.item_embedders = (
-            [
-                nnx.Embed(num_embeddings=card, features=embed_dim, rngs=rngs)
-                for card in user_categorical_feature_cardinalities
-            ],
-            [
-                nnx.Embed(num_embeddings=card, features=embed_dim, rngs=rngs)
-                for card in item_categorical_feature_cardinalities
-            ],
+            nnx.data(
+                [
+                    nnx.Embed(num_embeddings=card, features=embed_dim, rngs=rngs)
+                    for card in user_categorical_feature_cardinalities
+                ]
+            ),
+            nnx.data(
+                [
+                    nnx.Embed(num_embeddings=card, features=embed_dim, rngs=rngs)
+                    for card in item_categorical_feature_cardinalities
+                ]
+            ),
         )
 
         self.user_linears, self.item_linears = (
-            [
-                nnx.Linear(
-                    in_features=(len(user_categorical_feature_indices) * embed_dim),
-                    out_features=user_hidden_layer_dims[0],
-                    rngs=rngs,
-                )
-            ]
-            + [
-                nnx.Linear(
-                    in_features=user_hidden_layer_dims[i - 1],
-                    out_features=user_hidden_layer_dims[i],
-                    rngs=rngs,
-                )
-                for i in range(1, len(user_hidden_layer_dims))
-            ]
-            + [
-                nnx.Linear(
-                    in_features=user_hidden_layer_dims[-1],
-                    out_features=output_layer_dim,
-                    rngs=rngs,
-                )
-            ],
-            [
-                nnx.Linear(
-                    in_features=(len(item_categorical_feature_indices) * embed_dim),
-                    out_features=item_hidden_layer_dims[0],
-                    rngs=rngs,
-                )
-            ]
-            + [
-                nnx.Linear(
-                    in_features=item_hidden_layer_dims[i - 1],
-                    out_features=item_hidden_layer_dims[i],
-                    rngs=rngs,
-                )
-                for i in range(1, len(item_hidden_layer_dims))
-            ]
-            + [
-                nnx.Linear(
-                    in_features=item_hidden_layer_dims[-1],
-                    out_features=output_layer_dim,
-                    rngs=rngs,
-                )
-            ],
+            nnx.data(
+                [
+                    nnx.Linear(
+                        in_features=(len(user_categorical_feature_indices) * embed_dim),
+                        out_features=user_hidden_layer_dims[0],
+                        rngs=rngs,
+                    )
+                ]
+                + [
+                    nnx.Linear(
+                        in_features=user_hidden_layer_dims[i - 1],
+                        out_features=user_hidden_layer_dims[i],
+                        rngs=rngs,
+                    )
+                    for i in range(1, len(user_hidden_layer_dims))
+                ]
+                + [
+                    nnx.Linear(
+                        in_features=user_hidden_layer_dims[-1],
+                        out_features=output_layer_dim,
+                        rngs=rngs,
+                    )
+                ]
+            ),
+            nnx.data(
+                [
+                    nnx.Linear(
+                        in_features=(len(item_categorical_feature_indices) * embed_dim),
+                        out_features=item_hidden_layer_dims[0],
+                        rngs=rngs,
+                    )
+                ]
+                + [
+                    nnx.Linear(
+                        in_features=item_hidden_layer_dims[i - 1],
+                        out_features=item_hidden_layer_dims[i],
+                        rngs=rngs,
+                    )
+                    for i in range(1, len(item_hidden_layer_dims))
+                ]
+                + [
+                    nnx.Linear(
+                        in_features=item_hidden_layer_dims[-1],
+                        out_features=output_layer_dim,
+                        rngs=rngs,
+                    )
+                ]
+            ),
         )
 
     def user_tower(self, X: jax.Array) -> jax.Array:

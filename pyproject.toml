@@ -7,16 +7,14 @@ readme = "README.md"
 license="Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-flax-trainer = {git = "https://github.com/KaiSugahara/flax-trainer", tag = "v1.3.1"}
-pandas = "^2.2.3"
-polars = "^1.9.0"
-scikit-learn = "^1.5.2"
-
+python = ">=3.12,<3.15"
+nn-trainer = {git = "https://github.com/KaiSugahara/nn-trainer", tag = "v1.1.1"}
+polars = "^1.36.1"
+scikit-learn = "^1.8.0"
+kagglehub = "^0.3.13"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
-kagglehub = "^0.3.7"
 
 [build-system]
 requires = ["poetry-core"]

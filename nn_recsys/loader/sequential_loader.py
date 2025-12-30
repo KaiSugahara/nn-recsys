@@ -4,7 +4,7 @@ from typing import Generic, Self, TypeVar
 import jax
 import numpy as np
 from flax import nnx
-from flax_trainer.loader import BaseLoader
+from nn_trainer.flax.loader import BaseLoader
 from tqdm.auto import tqdm
 
 from nn_recsys.encoder.sequential_encoder import SequentialEncoder
@@ -25,17 +25,8 @@ class SequentialLoader(BaseLoader, Generic[T]):
         self.batch_size = batch_size
         self.rngs = rngs
 
-    def __iter__(self) -> Self:
-        """Prepares for batch iteration"""
-
-        self.__iter_init()
-        return self
-
-    def __iter_init(self) -> Self:
-        """Prepares for batch iteration"""
-
-        if getattr(self, "batch_index", 1) == 0:
-            return self
+    def setup_epoch(self) -> Self:
+        """Data preparation before the start of every epoch"""
 
         random.seed(self.seed)
         shuffled_sequences = random.sample(self.sequences, len(self.sequences))
@@ -45,6 +36,11 @@ class SequentialLoader(BaseLoader, Generic[T]):
 
         # Num. of batch
         self.batch_num = self.input_X.shape[1]
+
+        return self
+
+    def __iter__(self) -> Self:
+        """Initialize iteration"""
 
         # Initialize batch index
         self.batch_index = 0
@@ -58,7 +54,6 @@ class SequentialLoader(BaseLoader, Generic[T]):
             int: The number of batches
         """
 
-        self.__iter_init()
         return self.batch_num
 
     def __next__(self) -> tuple[tuple[jax.Array, ...], jax.Array]:

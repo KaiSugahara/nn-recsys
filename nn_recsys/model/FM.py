@@ -22,28 +22,34 @@ class FM(nnx.Module):
         )
 
         # Coefficient b for Linear Term
-        self.b = {
-            "categorical": {
-                field_i: nnx.Embed(num_embeddings=car, features=1, rngs=rngs)
-                for field_i, car in enumerate(categorical_feature_cardinalities)
-            },
-            "numerical": {
-                field_i: nnx.Embed(num_embeddings=1, features=1, rngs=rngs)
-                for field_i in range(numerical_feature_num)
-            },
-        }
+        self.b = nnx.data(
+            {
+                "categorical": {
+                    field_i: nnx.Embed(num_embeddings=car, features=1, rngs=rngs)
+                    for field_i, car in enumerate(categorical_feature_cardinalities)
+                },
+                "numerical": {
+                    field_i: nnx.Embed(num_embeddings=1, features=1, rngs=rngs)
+                    for field_i in range(numerical_feature_num)
+                },
+            }
+        )
 
         # Embedding Matrix W for Interaction Term
-        self.W = {
-            "categorical": {
-                field_i: nnx.Embed(num_embeddings=car, features=embed_dim, rngs=rngs)
-                for field_i, car in enumerate(categorical_feature_cardinalities)
-            },
-            "numerical": {
-                field_i: nnx.Embed(num_embeddings=1, features=embed_dim, rngs=rngs)
-                for field_i in range(numerical_feature_num)
-            },
-        }
+        self.W = nnx.data(
+            {
+                "categorical": {
+                    field_i: nnx.Embed(
+                        num_embeddings=car, features=embed_dim, rngs=rngs
+                    )
+                    for field_i, car in enumerate(categorical_feature_cardinalities)
+                },
+                "numerical": {
+                    field_i: nnx.Embed(num_embeddings=1, features=embed_dim, rngs=rngs)
+                    for field_i in range(numerical_feature_num)
+                },
+            }
+        )
 
         # Bias b0
         self.b0 = nnx.Param(jax.random.normal(rngs.params(), (1,), jnp.float32))
